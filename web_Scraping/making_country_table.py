@@ -1,0 +1,49 @@
+import pandas as pd
+
+# Step 1: Load players table
+players_df = pd.read_csv("players_table1.csv")
+
+# Step 2: Normalize country names (optional cleanup)
+players_df["country"] = players_df["country"].str.strip().replace({
+    "south africa": "South Africa",
+    "South africa": "South Africa",
+    "southafrica": "South Africa",
+    "new zealand": "New Zealand",
+    "newzealand": "New Zealand",
+    "sri lanka": "Sri Lanka",
+    "srilanka": "Sri Lanka",
+    "westindies": "West Indies",
+    "west indies": "West Indies"
+})
+
+# Step 3: Extract unique countries
+countries_df = players_df[["country"]].drop_duplicates().reset_index(drop=True)
+countries_df["country_id"] = ["C" + str(i).zfill(3) for i in range(1, len(countries_df) + 1)]
+
+# Step 4: Add flag URLs
+flag_map = {
+    "India": "https://flagcdn.com/w320/in.png",
+    "Australia": "https://flagcdn.com/w320/au.png",
+    "New Zealand": "https://flagcdn.com/w320/nz.png",
+    "England": "https://upload.wikimedia.org/wikipedia/en/thumb/b/be/Flag_of_England.svg/500px-Flag_of_England.svg.png",
+    "Sri Lanka": "https://flagcdn.com/w320/lk.png",
+    "Bangladesh": "https://flagcdn.com/w320/bd.png",
+    "Afghanistan": "https://flagcdn.com/w320/af.png",
+    "West Indies": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAGgAaAMBEQACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAAEBQAGBwMIAv/EAEIQAAIBAwEDBwgGCQQDAAAAAAECAwAEBREGEiEHEyIxQVFxFDJCYYGRobEVJFJiwdEWI1OSk7LC4fA1VHJ0MzZz/8QAGwEAAQUBAQAAAAAAAAAAAAAABQACAwQGAQf/xAA5EQABAwIDBAcHAwQDAQAAAAABAAIDBBEFITESE0FRBiJhcYGRwSNCobHR4fAUMlIzNJKycqLxYv/aAAwDAQACEQMRAD8A3GkkpSSUpJJVndosXgYucyd2kRI1SMdJ38FHGuEgKSOF8hs0LPcvyszMzJh8cqL2S3Tan90fnTC/kr7MPGrz5Kr3e3u0902pyjRD7MMaqPlr8abtFWW0kLfdQn6W7Ra6/TV7/FNc2in/AKeH+IRdpt7tPatqMo8o+zNGrD5a13aKa6khd7qtGI5WZlZUzOOR17ZbVtD+63504P5qq/Dx7h81oWC2ixWeh5zGXaSkDpRnounip408EFUZIXxGzgmtdUSlJJSkkpSSUpJLONueUVbB5MdgSkl0vRluTxWI9yjtb4D19jHO5IhTUe11pNFlbeWZK6lmbn7u4bpyNxdiO81A+Rrc3myKABosMgh26LFWG6w6weBpwz0XUTYY+7yMvN2UDyntIHAeJ6hUU08cDbyGy4ck/l2LnW1HNXkMl4OLQ9S+Abv/AM4VUFZLbeuicI+f25KsK2Ay7raG1yVcu7W4spTFdwvC47HGmvh31cilZK3aYbhWVyUFmCqNWPUBxNSHLMrq7RvdY67WSNprW6jIZWGqOtca4OF2m64QHCxzC1bYblFW/kjx2eKR3TdGK56klPc3c3wPq7Zmv5oXUUez1o9OS0enoepSSUpJLOOVDbFrBThcXLu3Ui/WZVPGJT1KO5j8B40xzrZIhR0217R2iy3F424yd0ttaJqetmPmoO81TqKhkDNt/wD6ihNtVf8AH2lvh7byax4ueMs563P5VPQ4Sak/qK0dzeAHM9qyWKY27a3dMdNT9F2ln5wfWEhkA7ZEBq2/o/Q6tu3ucQh7MdrW6uB7x9LKGdgojXdjTqCoN0VNT4NRU7toNu7m43+yhqMWq5xZzrDsyXxRa2VkOXTnnKbkgWRPsyKGFCajBKKd23s7J5tNkTgxerhGyHXHbmokpj/8McUX/wA4wKib0foR+4F3eSpH45Wu94DuCEymOt81BzdyebuVH6q404j1HvFUq7DXUZM9ILt95vqEUwrGiTuqg58D9fRULIWNxj7lra7j3JF9zDvHeKjhmZMzbjNwtSDdapyX7YvfqMLlJS11GutvKx4yqPRP3h8R4cbTHcELrKfZ9o3TitHp6HpVtPmI8DhLrIyAMYl0jQnz3PBR764TYKSGMyPDQvOtzcTXdxLcXMhkmlYvI59InrqBaAAAWGiuGxVwj4m7t0VVljcOxUcXU9/hofhVSJrGYnE6QXBuB2HghONNkNG4sNufdxTckKCSQAOJJPVWyJAFysCk+Rvw+qQTEg8DovA+2g1XWB3Vjd+fNQPffIIGCd45g/OONBpqOJA9tUopnMeHXP53qNrrFPrO7iuF0WTecDiCN0+6jsFSyUWBz8lYa4FHW0JmfTXRR1mqeLYm3D4dq13HID84Inh1A6sk2dGjUo8WkAGm5r69axLsfxFztreW7gLLVtwaia22xfxKEu7bmgGTUr269lanBMbNad1MLPHx+6z+K4UKUbyM9X5Krbc3QMdjaEBpAplZiOIB4AfP3CqDWMNbNJGLNvbxGp81qMJa8UjN4bmyq9tcTWlxFc20hjnicPG49Ejqq0iJAIsV6K2YzEeewlrkY9AZF0kQeg44MPfU4NwgE0ZjeWrPeWnKM1xYYlG6KKbiUa9p6K/1e+mPPBXsPZkX+CzKo0SVk2ELfSlwPRNs297xpVGtJBiI122/NVqwAwPDtLH5J9ezBQIlh56U8QumoHrNaypk2eoG7RPBeYOKU3cF3u85Oiqv3d0AewUIqIp7bTxYeChcHalDRAs4AZVPex0FVmC7gAbJgTKOKWFg1xaKyjjzsPnD18KItjfGbyR5cx9lMARqFZMY6lWAOuujD10F6VxOduph+3MLW9HJW9ePjkUdWNWoQ9+yi2ZT1twFHujcT34g1zdG3J8rIPjkjWUbmnV1gFnu2gI2gm16ubTd8N0f3ojh5vDc63N++6Mw23YskVXlKtN5F8oVuL/Eu3RZRcRAntHRb+n3VIw8ENxBmQf4Kr8pFybrbTJEnhEyxL4BR+JNNdqrNI3Zhaq1TVZVs2FiITI3OnUixA+JJPyFVi3e1sEfaXeSGYvJu6N55i3nkrAAAddK2FgvPUNcWUEu9JNvsQOvfPCqs1LHJdz7nxXN2HmyW4W1ivbFbiZSWdm00Og0B0qjRUkU0W29W8QooqacxMvkAm1vAtum4jOU7Ax108KJwwiEWaclUaNnRd1ZlYMp0I7a7LDHMwxyC4KkjkfE8PYbEIgX0oHUhPfpWed0Woy64c4DlcfRGm9IKoNsQCeef1XCWR5Tq51/CjdHRQUbN3CLD4nvQqpqpap+3Kbqr7dQ/WrO6/aw7hPrU/3rMxN3VRPDydf/ACzW+wyXe0jHdg+GSrFWVfVl5OLo2u2mNI6pWaJvAqfxApzdVWq23hchdtdf0uy+v+6euO1T6f8Aot7kkrimV92atjabPwhho9y5mbw6l+ABp+Ex72tkn4NGyO/UrL9JKgBrYRxzKYVpVklwv23bG4YdkTH4VDObROPYVPSi87B2j5oPZv8A0aDxf+Y1Ww3+2b4/NXMY/vHeHyTaFBJIFJ4HuqStqHU8BkaLnIDxIHqqlLCJpgxxyz+AuvuSJFjLIW1AB46dtUaWuqHziOVosS4ZX1b38FbqKOBkJkjJuA0520cuNGEMUpJJbtTb+U7Pu6jp2sokH/E8D89fZWYxOPc4iyThILeI0Wx6OT7ULouR+B+6olJaROtiv/bsR/2krrdVBU/0XdyM5SLY2u2mSBHCVllXwKj8da67VNpHXhaq5BEZ544VOhkdUHiTpUb3bDS48FZV3yd3LFeyQwPuRRaRooA4ADSjmBU7WUEZOrusfHNeZY3VPfXPzyGXkhfLrn9sfcKL7pnJCt6/mudxd3D28qNKSGQgjQd1Q1MTTC+w4FWaKZwqY7niPmhsTeTRWSokhVVY8NB4/jQ/CzGKW7zaxKJ9INtlabcQPp6Jti72aS+jVpSRuvw4fZNQ4tUUrqUhrhe7f9gqmFPeaptzwd/qUXcXEosHYSHUQQHXQdutVKMNdWMtpty+iI1LiKNx/wDmL1Svy65/bH3CtPumclnd6/mp5dc/tj7hS3TOSW9fzRWNnku52s7h96O5jaJgQO0UC6RU4/RGVozYQ745/NG+j9U5lc1pOTrj19FRirISrecp0PjQoEEXC9HVk5OLU3W2mNA6omaVvAKfx0p7dVXq3bMLlaOWjFstxYZZF6LqbeQ+sdJfhve6nPHFVcPfkWeKzi0m8mu4J9NeakV9O/Q61BIzbYW8wiKuGYjC3rSxneinAljYdoNHej9SJqFjfeZ1T4afBeZY7TOgrXk6OzHj90BRtBlG8061VrJ2wwlzu5PjJa4EcEtsDpzkZ7Dr+FY1pystX0ij22xTjjl6j1TnDf6jH/wk/kaq9b/RPh8wg+Ff3Te53+pR1ydMbJp/t7b8aio5nw1TXs12nolUi9G7/jF6pUCCNa9Bpp2zxh4WYIUqwuJlg0AuzcyndhtlMkjdw0/z3VnuktSI6Iwj90nVHr8Pmj/R2mdLWh/Buf0VJnk56eWXTTnHZtO7U60JY3ZaG8l6OtK5FsWzXF/lnXooot4z6z0m/pqZg4odiD8gzxWhbT4ePPYO6x0mgMq6xsfRccVPvp5FwqMMhjeHBedbm3mtLmW2uYzHNE5R0PokddQFHwQ4XGie4PLW8lmuMyb82iH6tcHjzevon1VCySaiqP1EAuD+5vPtHahmKYZHXxbJyI0KPurKa20Z1DRtxWVDvIw9RrVUOKU1aPZO63EHIjw+i88rcMqaN3tW5c+CClPS0odjEt5RHyCptQBV4r3fCkoTx0HfQTQrWtnhqsL3T3gOGlzxGnmEwgma3lEsZG8ARxHeND86UjGyN2XaLMwTPheHs1/Auj3szwtEzDdZEQ8OxeqmNgY120Ncz56qV9bK6MxnQgD/AB0XKI8SKPYPLaQx8/RU3BG2tjNcKZBuxwrxaaQ7qKPGr9di1NRZPN3cGjM/bxV6hwqprT7NuXM6ffwS/O5iA2v0Zi2Jg11nn00549w+7/njlSZqqo/VVGvuj+I+q9Fw7D46GHds8TzKR21vNd3EVvbRmSaVwkaL1sx6hVhXyQBcr0Vsxho8Dg7XHR6ExLrI49NzxY++pwLBZ+aQyPLk1rqjWccqGxz36nNYuLeuo1+sxKOMqj0h94D3jwpj28UQo6jZ9m7TgsiHHiKiRVH4zL3uM1FrL+qPnQuN5G9n5VXmpY5TcixHEZEeKa5jXizhcJ5bZPFZE7sw+jrg9vnQsfH0flVmHEaylykAlb/2+6zdf0agmu6Dqn4fncutzZT22hkUGM+bIp1VvA1oaLEKKtHsiL8iLHyWNrMNqaM2lblz4IfQUQ3bOQVFE21jNcKXVVSJfOlkO6q+2htbiNFR5SEF38QLny+qIUWF1VYfZNy5nRcLjLYvHkrax/SFwPTboxKfUOtvlWfmr62ryb7JvZ+7z4eC2VD0bp4LOm6zvh5fVIsllL3JODdzFlHmxjgi+AqCGmih/YM+fHzWjDQ0WCC6qnXVrvJfsc9gozWUi3bqRfq0TdcSn0j94/AePCVjbZlCqyp2vZt04rR6eh6lJJSkks4255Olv5JMjgQkd03SltjwWU96nsb1dR9XaxzOSIU1Zs9WTTmsnubea0uHt7qF4Zozo8cikMvsqJFAQRcLlSXUfjMxe406W8usR86GQbyN7PyqCWmjlO0cnDiMj5pj2Ne3ZcLhOjncUsHlKWchujw8lY/q1P2te0eqpjW4k6PcF+X8/ety7+1A29HaMT722XLh+diSZPK3uTcG6mJQebEvRRfAVDDTRw5tGZ1J1PijrWtYLNGSBqdOXW2t57u4S3tYXmmkOixxrqx9lJcJAFytY2G5O1sJI8jnQklyvSithxWI97Htb4D11K1lsyhdTWbXVj05rR6eh6lJJSkkpSSUpJJVnNncVnotzJ2iSkDRJB0XTwYca4QCpY5nxnqlZ7l+SaZWZ8NkVdeyK6XQ/vD8qYWclfZiA98eSq93sFtPatocW8w+1DIrD56/Cm7JVhtXCfeQv6I7R66fQt7/AA65slP/AFEP8girTYLae6bQYt4h9qaRVHz1+Fd2Smuq4R7ytGI5JpmZXzGRRF7YrVdT+8fypwZzVV+ID3B5rQsFs7isDFzeMtEiJGjSHpO/ix4mngAKjJM+Q9YprXVEpSSUpJL/2Q==",
+    "South Africa": "https://flagcdn.com/w320/za.png"
+}
+
+countries_df["flag_url"] = countries_df["country"].map(flag_map)
+
+# Step 5: Save to countries.csv
+countries_df = countries_df[["country_id", "country", "flag_url"]]
+countries_df.to_csv("countries.csv", index=False)
+print("✅ countries.csv created.")
+
+# Step 6: Merge country_id into players table
+players_df = pd.merge(players_df, countries_df, on="country", how="left")
+players_df = players_df[["player_id", "name", "team_id", "country_id"]]
+
+# Step 7: Save updated players table
+players_df.to_csv("players_table2.csv", index=False)
+print("✅ players_table2.csv updated with country_id.")

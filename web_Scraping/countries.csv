@@ -1,0 +1,10 @@
+country_id,country,flag_url
+C001,India,https://flagcdn.com/w320/in.png
+C002,Australia,https://flagcdn.com/w320/au.png
+C003,England,https://upload.wikimedia.org/wikipedia/en/thumb/b/be/Flag_of_England.svg/500px-Flag_of_England.svg.png
+C004,South Africa,https://flagcdn.com/w320/za.png
+C005,West Indies,https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Cricket_West_Indies_Logo_2017.png/270px-Cricket_West_Indies_Logo_2017.png
+C006,Newzealand,
+C007,Sri Lanka,https://flagcdn.com/w320/lk.png
+C008,Afganistan,
+C009,Bangladesh,https://flagcdn.com/w320/bd.png
