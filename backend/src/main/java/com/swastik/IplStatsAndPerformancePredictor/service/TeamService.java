@@ -27,17 +27,25 @@ public class TeamService {
     @Autowired
     private IPLTeamRepo iplTeamRepo;
 
-    // Fetch all the players of a team according to role(Batting/Bowling)
-    public ResponseEntity<List<?>> getAllPlayersByTeam(String teamId, String role) {
-        if(role.equalsIgnoreCase("batting"))
-            return ResponseEntity.ok(battingRepo.findAllPlayersByTeam(teamId));
+    // Fetch All the IPL teams
+    public ResponseEntity<List<IPLTeamDTO>> getAllTeams() {
+        List<IPLTeams> teams = iplTeamRepo.findAll();
 
-        else if(role.equalsIgnoreCase("bowling"))
-            return ResponseEntity.ok(bowlingRepo.findAllPlayersByTeam(teamId));
+        List<IPLTeamDTO> teamDTOs = teams.stream()
+                .map(team -> new IPLTeamDTO(
+                        team.getTeamId(),
+                        team.getTeamName(),
+                        team.getTeamCode(),
+                        team.getTeamLogoUrl()
+                ))
+                .collect(Collectors.toList());
 
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(teamDTOs);
     }
 
+
+
+    // Search Teams
     public ResponseEntity<List<?>> searchTeam(String keyword) {
         List<IPLTeams> teams = iplTeamRepo.findByKeyword(keyword);
 

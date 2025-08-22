@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BowlingStatsDTO {
+    private String playerId;
     private String playerName;
     private String teamName;
     private String teamCode;
@@ -21,5 +22,4 @@ public class BowlingStatsDTO {
     private float bowlingStrikeRate;
     private int fourWickets;
     private int fiveWickets;
-
 }

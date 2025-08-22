@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface BattingRepo extends JpaRepository<BattingStats, Long> {
 
-    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.name, " +
+    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bt.matches, bt.innings, bt.runs, bt.highestScore, bt.average, bt.strikeRate, bt.fifties, bt.centuries, bt.fours, bt.sixes) " +
@@ -23,7 +23,7 @@ public interface BattingRepo extends JpaRepository<BattingStats, Long> {
     )
     List<BattingStatsDTO> findAllPlayers();
 
-    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.name, " +
+    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bt.matches, bt.innings, bt.runs, bt.highestScore, bt.average, bt.strikeRate, bt.fifties, bt.centuries, bt.fours, bt.sixes) " +
@@ -36,7 +36,7 @@ public interface BattingRepo extends JpaRepository<BattingStats, Long> {
     )
     List<BattingStatsDTO> findAllPlayersByTeam(String teamId);
 
-    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.name, " +
+    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bt.matches, bt.innings, bt.runs, bt.highestScore, bt.average, bt.strikeRate, bt.fifties, bt.centuries, bt.fours, bt.sixes) " +
@@ -49,7 +49,7 @@ public interface BattingRepo extends JpaRepository<BattingStats, Long> {
     )
     List<BattingStatsDTO> findAllPlayersByCountry(String countryId);
 
-    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.name, " +
+    @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BattingStatsDTO( pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bt.matches, bt.innings, bt.runs, bt.highestScore, bt.average, bt.strikeRate, bt.fifties, bt.centuries, bt.fours, bt.sixes) " +

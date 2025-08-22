@@ -1,5 +1,6 @@
 package com.swastik.IplStatsAndPerformancePredictor.controller;
 
+import com.swastik.IplStatsAndPerformancePredictor.service.PlayerService;
 import com.swastik.IplStatsAndPerformancePredictor.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,13 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private PlayerService playerService;
+
     // Fetch all the players of the team according to role (Batting/Bowling)
     @GetMapping("players")
     public ResponseEntity<List<?>> getAllPlayersByTeam(@RequestParam String teamId, @RequestParam String role){
-        return teamService.getAllPlayersByTeam(teamId, role);
+        return playerService.getAllPlayersByTeam(teamId, role);
     }
 
     // Search Teams

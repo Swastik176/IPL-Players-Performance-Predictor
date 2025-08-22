@@ -26,16 +26,22 @@ public class CountryService {
     @Autowired
     CountryRepo countryRepo;
 
-    // Fetch all the players of a country according to role(Batting/Bowling)
-    public ResponseEntity<List<?>> getAllPlayersByCountry(String countryId, String role) {
-        if(role.equalsIgnoreCase("batting"))
-            return ResponseEntity.ok(battingRepo.findAllPlayersByCountry(countryId));
+    // Fetch All the countries
+    public ResponseEntity<List<CountryDTO>> getAllCountry() {
+        List<Country> countries = countryRepo.findAll();
 
-        else if(role.equalsIgnoreCase("bowling"))
-            return ResponseEntity.ok(bowlingRepo.findAllPlayersByCountry(countryId));
+        List<CountryDTO> countryDTOS = countries.stream()
+                .map(country -> new CountryDTO(
+                        country.getCountryId(),
+                        country.getCountryName(),
+                        country.getFlag()
+                ))
+                .collect(Collectors.toList());
 
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(countryDTOS, HttpStatus.OK);
     }
+
+
 
     // Search Country
     public ResponseEntity<List<?>> searchCountry(String keyword) {

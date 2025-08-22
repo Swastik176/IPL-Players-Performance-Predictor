@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BattingStatsDTO {
+    private String playerId;
     private String playerName;
     private String teamName;
     private String teamCode;

@@ -12,7 +12,7 @@ import java.util.List;
 public interface BowlingRepo extends JpaRepository<BowlingStats, Long> {
 
     @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BowlingStatsDTO(" +
-            " pl.name, " +
+            "pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bl.matches, bl.innings, bl.wickets, bl.overs, bl.economy, bl.foursConceded, bl.sixesConceded, bl.bowlingAvg, bl.bowlingStrikeRate, bl.fourWickets, bl.fiveWickets) " +
@@ -25,7 +25,7 @@ public interface BowlingRepo extends JpaRepository<BowlingStats, Long> {
     List<BowlingStatsDTO> findAllPlayers();
 
     @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BowlingStatsDTO(" +
-            " pl.name, " +
+            "pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bl.matches, bl.innings, bl.wickets, bl.overs, bl.economy, bl.foursConceded, bl.sixesConceded, bl.bowlingAvg, bl.bowlingStrikeRate, bl.fourWickets, bl.fiveWickets) " +
@@ -39,7 +39,7 @@ public interface BowlingRepo extends JpaRepository<BowlingStats, Long> {
     List<BowlingStatsDTO> findAllPlayersByTeam(String teamId);
 
     @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BowlingStatsDTO(" +
-            " pl.name, " +
+            "pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bl.matches, bl.innings, bl.wickets, bl.overs, bl.economy, bl.foursConceded, bl.sixesConceded, bl.bowlingAvg, bl.bowlingStrikeRate, bl.fourWickets, bl.fiveWickets) " +
@@ -54,7 +54,7 @@ public interface BowlingRepo extends JpaRepository<BowlingStats, Long> {
     List<BowlingStatsDTO> findAllPlayersByCountry(String countryId);
 
     @Query("SELECT new com.swastik.IplStatsAndPerformancePredictor.dto.BowlingStatsDTO(" +
-            " pl.name, " +
+            "pl.playerId, pl.name, " +
             "t.teamName, t.teamCode, " +
             "c.countryName, " +
             "bl.matches, bl.innings, bl.wickets, bl.overs, bl.economy, bl.foursConceded, bl.sixesConceded, bl.bowlingAvg, bl.bowlingStrikeRate, bl.fourWickets, bl.fiveWickets) " +
