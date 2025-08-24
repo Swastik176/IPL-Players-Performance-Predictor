@@ -56,9 +56,9 @@ function Header() {
             <div className="lg:hidden flex flex-1 justify-end">
                 <button onClick={() => setMenuOpen((prev) => !prev)}>
                     {menuOpen ? (
-                        <FiX className="text-white text-3xl" />
+                        <FiX className="text-white text-3xl cursor-pointer" />
                     ) : (
-                        <FiMenu className="text-white text-3xl" />
+                        <FiMenu className="text-white text-3xl cursor-pointer" />
                     )}
                 </button>
             </div>

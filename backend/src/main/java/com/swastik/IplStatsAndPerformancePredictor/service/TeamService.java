@@ -50,7 +50,7 @@ public class TeamService {
         List<IPLTeams> teams = iplTeamRepo.findByKeyword(keyword);
 
         if(teams.isEmpty())
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(new ArrayList<>());
 
         List<IPLTeamDTO> teamDTOS = teams.stream()
                 .map(team -> new IPLTeamDTO(
@@ -62,5 +62,22 @@ public class TeamService {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(teamDTOS);
+    }
+
+    // Fetch Team by teamId
+    public ResponseEntity<List<?>> searchTeamById(String teamId) {
+        IPLTeams iplTeams = iplTeamRepo.findById(teamId).orElse(new IPLTeams());
+
+        IPLTeamDTO iplTeamDTO = new IPLTeamDTO(
+                iplTeams.getTeamId(),
+                iplTeams.getTeamName(),
+                iplTeams.getTeamCode(),
+                iplTeams.getTeamLogoUrl()
+        );
+
+        List<IPLTeamDTO> iplTeamDTOList = new ArrayList<>();
+        iplTeamDTOList.add(iplTeamDTO);
+
+        return ResponseEntity.ok(iplTeamDTOList);
     }
 }

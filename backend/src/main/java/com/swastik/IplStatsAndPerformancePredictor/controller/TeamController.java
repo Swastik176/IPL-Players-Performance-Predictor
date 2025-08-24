@@ -4,10 +4,7 @@ import com.swastik.IplStatsAndPerformancePredictor.service.PlayerService;
 import com.swastik.IplStatsAndPerformancePredictor.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +29,8 @@ public class TeamController {
     public ResponseEntity<List<?>> searchTeams(@RequestParam String keyword){
         return teamService.searchTeam(keyword);
     }
+
+    // Fetch Team by teamId
+    @GetMapping("{teamId}")
+    public ResponseEntity<List<?>> searchTeamById(@PathVariable String teamId){ return teamService.searchTeamById(teamId);}
 }

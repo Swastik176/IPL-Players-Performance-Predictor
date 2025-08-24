@@ -48,7 +48,7 @@ public class HomeController {
     }
 
     // Search players
-    @GetMapping("search")
+    @GetMapping("/player/search")
     public ResponseEntity<List<?>> searchPlayers(@RequestParam String keyword){
         return playerService.searchPlayers(keyword);
     }

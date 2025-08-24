@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +46,7 @@ public class PlayerService {
         List<Players> players = playersRepo.findByKeyword(keyword);
 
         if(players.isEmpty())
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(new ArrayList<>());
 
         List<PlayersDTO> playersDTOS = players.stream()
                 .map(player -> new PlayersDTO(
@@ -81,8 +83,9 @@ public class PlayerService {
 
     // Fetch all the players of a team according to role(Batting/Bowling)
     public ResponseEntity<List<?>> getAllPlayersByTeam(String teamId, String role) {
-        if(role.equalsIgnoreCase("batting"))
+        if(role.equalsIgnoreCase("batting")){
             return ResponseEntity.ok(battingRepo.findAllPlayersByTeam(teamId));
+        }
 
         else if(role.equalsIgnoreCase("bowling"))
             return ResponseEntity.ok(bowlingRepo.findAllPlayersByTeam(teamId));

@@ -48,7 +48,7 @@ public class CountryService {
         List<Country> countries = countryRepo.findByKeyword(keyword);
 
         if(countries.isEmpty())
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(new ArrayList<>());
 
         List<CountryDTO> countryDTOS = countries.stream()
                 .map(country -> new CountryDTO(
@@ -59,5 +59,21 @@ public class CountryService {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(countryDTOS);
+    }
+
+    public ResponseEntity<List<?>> searchCountryById(String countryId) {
+        Country country = countryRepo.findById(countryId).orElse(new Country());
+
+        CountryDTO countryDTO = new CountryDTO(
+                country.getCountryId(),
+                country.getCountryId(),
+                country.getFlag()
+        );
+
+        List<CountryDTO> countryDTOList = new ArrayList<>();
+
+        countryDTOList.add(countryDTO);
+
+        return ResponseEntity.ok(countryDTOList);
     }
 }
