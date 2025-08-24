@@ -14,7 +14,7 @@ function TeamPlayer() {
     // Fetch players whenever role changes
     useEffect(() => {
         fetch(
-            `http://localhost:8001/api/team/players?teamId=${teamId}&role=${role}`
+            `${import.meta.env.VITE_BACKEND_URL}/api/team/players?teamId=${teamId}&role=${role}`
         )
             .then((response) => {
                 if (!response.ok) {
