@@ -14,7 +14,7 @@ function Players() {
     // Fetch players whenever role changes
     useEffect(() => {
         fetch(
-            `http://localhost:8001/api/players?role=${role}`
+            `${import.meta.env.VITE_BACKEND_URL}/api/players?role=${role}`
         )
             .then((response) => {
                 if (!response.ok) {
@@ -61,7 +61,7 @@ function Players() {
 export default Players;
 
 export const PlayersLoader = async () => {
-    const response = await fetch(`http://localhost:8001/api/players?role=batting`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/players?role=batting`);
 
     if (!response.ok) {
         throw new Error('Could not fetch players');

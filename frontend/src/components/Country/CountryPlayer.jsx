@@ -14,7 +14,7 @@ function CountryPlayer() {
     // Fetch players whenever role changes
     useEffect(() => {
         fetch(
-            `http://localhost:8001/api/country/players?countryId=${countryId}&role=${role}`
+            `${import.meta.env.VITE_BACKEND_URL}/api/country/players?countryId=${countryId}&role=${role}`
         )
             .then((response) => {
                 if (!response.ok) {
@@ -61,7 +61,7 @@ export default CountryPlayer;
 
 export const CountryPlayerLoader = async ({ params }) => {
     const { countryId } = params;
-    const response = await fetch(`http://localhost:8001/api/country/players?countryId=${countryId}&role=batting`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/country/players?countryId=${countryId}&role=batting`);
     if (!response.ok) {
         throw new Error('Could not fetch country players');
     }

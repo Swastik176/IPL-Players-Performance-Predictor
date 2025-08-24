@@ -12,7 +12,7 @@ function SearchBar({ placeholder, entityType, className, setSelection, role }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:8001/api/${entityType}/search?keyword=${value}`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/${entityType}/search?keyword=${value}`);
             if (!response.ok) {
                 throw new Error('Search request failed for ' + entityType);
             };
@@ -34,7 +34,7 @@ function SearchBar({ placeholder, entityType, className, setSelection, role }) {
         setResults([]);
 
         if(entityType === 'player'){
-            fetch(`http://localhost:8001/api/${entityType}?playerId=${id}&role=${role}`)
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/api/${entityType}?playerId=${id}&role=${role}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Could not fetch " + entityType);
@@ -51,7 +51,7 @@ function SearchBar({ placeholder, entityType, className, setSelection, role }) {
             .catch((err) => console.error(err));
         }
         else if(entityType === 'team'){
-            fetch(`http://localhost:8001/api/${entityType}/${id}`)
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/api/${entityType}/${id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Could not fetch " + entityType);
@@ -62,7 +62,7 @@ function SearchBar({ placeholder, entityType, className, setSelection, role }) {
             .catch((err) => console.error(err));
         }
         else{
-            fetch(`http://localhost:8001/api/${entityType}/${id}`)
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/api/${entityType}/${id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Could not fetch " + entityType);
