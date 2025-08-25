@@ -62,7 +62,7 @@ export default TeamPlayer;
 export const TeamPlayerLoader = async ({ params }) => {
     const { teamId } = params;
     console.log(params);
-    const response = await fetch(`http://localhost:8001/api/team/players?teamId=${teamId}&role=batting`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/team/players?teamId=${teamId}&role=batting`);
     if (!response.ok) {
         throw new Error('Could not fetch team players');
     }

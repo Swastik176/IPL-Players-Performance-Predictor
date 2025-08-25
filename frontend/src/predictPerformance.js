@@ -2,7 +2,7 @@
 export async function predictPerformance(player, role) {
     const dto = `${role}StatsDTO`;
 
-    const response = await fetch('http://localhost:8001/api/predict/', {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/predict/`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
